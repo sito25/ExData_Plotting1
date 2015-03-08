@@ -1,0 +1,7 @@
+hpc<-read.table("~/household_power_consumption.txt",sep=";")
+hpc_reduced<-subset(hpc,as.Date(hpc$V1,format="%d/%m/%Y")=="2007-02-01" | as.Date(hpc$V1,format="%d/%m/%Y")=="2007-02-02")
+hpc_reduced$CDate=paste(hpc_reduced$V1,hpc_reduced$V2)
+png("plot2.png", width = 480, height = 480, units = "px", bg = "white")
+par(mar= c(4, 4, 2, 1))
+plot(as.POSIXct(strptime(hpc_reduced$CDate,"%d/%m/%Y %H:%M:%S")),as.numeric(as.character(hpc_reduced$V3)), type ="l",main = "Global Active Power",xlab="",ylab = "Global Active Power (kilowatts)")
+dev.off()

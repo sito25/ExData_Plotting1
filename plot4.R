@@ -1,0 +1,18 @@
+hpc<-read.table("~/household_power_consumption.txt",sep=";")
+hpc_reduced<-subset(hpc,as.Date(hpc$V1,format="%d/%m/%Y")=="2007-02-01" | as.Date(hpc$V1,format="%d/%m/%Y")=="2007-02-02")
+hpc_reduced$CDate=paste(hpc_reduced$V1,hpc_reduced$V2)
+png("plot4.png", width = 480, height = 480, units = "px", bg = "white")
+par(mar= c(4, 4, 2, 1))
+par(mfrow = c(2,2))
+
+plot(as.POSIXct(strptime(hpc_reduced$CDate,"%d/%m/%Y %H:%M:%S")),as.numeric(as.character(hpc_reduced$V3)), type ="l",main = "",xlab="",ylab = "Global Active Power")
+plot(as.POSIXct(strptime(hpc_reduced$CDate,"%d/%m/%Y %H:%M:%S")),as.numeric(as.character(hpc_reduced$V5)), type ="l",main = "",xlab="datetime",ylab = "Voltage")
+
+plot(as.POSIXct(strptime(hpc_reduced$CDate,"%d/%m/%Y %H:%M:%S")),as.numeric(as.character(hpc_reduced$V7)), col="grey", type ="l",main = "",xlab="",ylab = "Energy sub metering")
+lines(as.POSIXct(strptime(hpc_reduced$CDate,"%d/%m/%Y %H:%M:%S")),as.numeric(as.character(hpc_reduced$V8)), col="red", type ="l")
+lines(as.POSIXct(strptime(hpc_reduced$CDate,"%d/%m/%Y %H:%M:%S")),as.numeric(as.character(hpc_reduced$V9)), col="blue", type ="l")
+legend("topright",col = c("grey","red","blue"),c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),lwd = "1")
+
+plot(as.POSIXct(strptime(hpc_reduced$CDate,"%d/%m/%Y %H:%M:%S")),as.numeric(as.character(hpc_reduced$V4)), type ="l",main = "",xlab="datetime",ylab = "Global reactive power")
+
+dev.off()
